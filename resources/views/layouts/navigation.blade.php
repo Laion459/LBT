@@ -22,8 +22,8 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-gray-300 dark:text-gray-300 hover:text-gray-100 dark:hover:text-gray-100">
-                        {{ __('GRAFICS') }}
+                    <x-nav-link :href="route('table_control.index')" :active="request()->routeIs('table_control')" class="text-gray-300 dark:text-gray-300 hover:text-gray-100 dark:hover:text-gray-100">
+                        {{ __('TABLES') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">

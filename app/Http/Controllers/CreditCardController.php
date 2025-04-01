@@ -3,64 +3,44 @@
 namespace App\Http\Controllers;
 
 use App\Models\CreditCard;
-use App\Http\Requests\StoreCreditCardRequest;
-use App\Http\Requests\UpdateCreditCardRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CreditCardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function update(Request $request, CreditCard $creditCard)
     {
-        // Logic to display all credit cards
+        $validatedData = $request->validate([
+            'card' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:255',
+            'installments' => 'nullable|string|max:255',
+            'value' => 'nullable|numeric',
+        ]);
+
+        $creditCard->update($validatedData);
+
+        return response()->json(['success' => true, 'message' => 'Credit Card updated successfully.']);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        // Logic to show the create form
+        $validatedData = $request->validate([
+            'card' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'installments' => 'required|string|max:255',
+            'value' => 'required|numeric',
+        ]);
+
+        $validatedData['user_id'] = Auth::id();
+        CreditCard::create($validatedData);
+
+        return response()->json(['success' => true, 'message' => 'Credit Card created successfully.']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCreditCardRequest $request)
-    {
-        // Logic to store a new credit card
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(CreditCard $creditCard)
-    {
-        // Logic to show a specific credit card
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(CreditCard $creditCard)
-    {
-        // Logic to show the edit form
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCreditCardRequest $request, CreditCard $creditCard)
-    {
-        // Logic to update an existing credit card
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(CreditCard $creditCard)
     {
-        // Logic to delete a credit card
+        $creditCard->delete();
+
+        return response()->json(['success' => true, 'message' => 'Credit Card deleted successfully.']);
     }
 }

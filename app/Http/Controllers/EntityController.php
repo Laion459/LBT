@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Entity;
 use App\Http\Requests\StoreEntityRequest;
 use App\Http\Requests\UpdateEntityRequest;
+use App\Models\Entity;
 use Illuminate\Support\Facades\Auth; // Import Auth facade
 
 class EntityController extends Controller
@@ -39,7 +39,7 @@ class EntityController extends Controller
         $validatedData = $request->validated();
 
         // Create a new entity instance
-        $entity = new Entity();
+        $entity = new Entity;
 
         // Fill the entity with the validated data
         $entity->fill($validatedData);

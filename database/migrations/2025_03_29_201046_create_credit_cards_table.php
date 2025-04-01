@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('credit_cards', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('number'); // Consider encrypting this
-            $table->date('expiration_date');
-            $table->string('cvv');      // Consider encrypting this
-            $table->decimal('credit_limit', 10, 2);
-            $table->decimal('available_credit', 10, 2);
-            $table->decimal('interest_rate', 5, 2);
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('card')->nullable();
+            $table->string('description')->nullable();
+            $table->string('installments')->nullable();
+            $table->decimal('value', 10, 2)->nullable();
             $table->timestamps();
         });
     }

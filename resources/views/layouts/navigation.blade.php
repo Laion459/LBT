@@ -27,8 +27,8 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-gray-300 dark:text-gray-300 hover:text-gray-100 dark:hover:text-gray-100">
-                        {{ __('RESUME') }}
+                    <x-nav-link :href="route('goals.index')" :active="request()->routeIs('goals')" class="text-gray-300 dark:text-gray-300 hover:text-gray-100 dark:hover:text-gray-100">
+                        {{ __('GOALS') }}
                     </x-nav-link>
                 </div>
             </div>

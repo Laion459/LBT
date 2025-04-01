@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Goal;
-use App\Http\Requests\StoreGoalRequest;
-use App\Http\Requests\UpdateGoalRequest;
+use Illuminate\Http\Request;  // Importe a classe Request
+use Illuminate\Support\Facades\Auth; // Importe a classe Redirect
+use Illuminate\Support\Facades\Redirect;
 
 class GoalController extends Controller
 {
@@ -13,7 +14,9 @@ class GoalController extends Controller
      */
     public function index()
     {
-        // Logic to display all goals
+        $goals = Goal::all(); // Retrieve all goals from the database
+
+        return view('goals.index', compact('goals')); // Pass the goals to the view
     }
 
     /**
@@ -21,15 +24,33 @@ class GoalController extends Controller
      */
     public function create()
     {
-        // Logic to show the create form
+        return view('goals.create'); // Show the create form (create.blade.php)
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreGoalRequest $request)
+    public function store(Request $request) // Use the generic Request class
     {
-        // Logic to store a new goal
+        // Validate the request data
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'target_amount' => 'required|numeric|min:0',
+            'current_amount' => 'nullable|numeric|min:0', // Current amount can be optional initially
+            'target_date' => 'required|date',
+        ]);
+
+        // Create a new goal using the validated data
+        $goal = new Goal;
+        $goal->name = $validatedData['name'];
+        $goal->target_amount = $validatedData['target_amount'];
+        $goal->current_amount = $validatedData['current_amount'] ?? 0; // Default to 0 if not provided
+        $goal->target_date = $validatedData['target_date'];
+        $goal->user_id = Auth::id();
+        $goal->save();
+
+        // Redirect to the index page with a success message
+        return redirect()->route('goals.index')->with('success', 'Goal created successfully!');
     }
 
     /**
@@ -37,7 +58,7 @@ class GoalController extends Controller
      */
     public function show(Goal $goal)
     {
-        // Logic to show a specific goal
+        return view('goals.show', compact('goal'));  // Pass the goal to the show view (show.blade.php)
     }
 
     /**
@@ -45,15 +66,31 @@ class GoalController extends Controller
      */
     public function edit(Goal $goal)
     {
-        // Logic to show the edit form
+        return view('goals.edit', compact('goal')); // Pass the goal to the edit view (edit.blade.php)
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateGoalRequest $request, Goal $goal)
+    public function update(Request $request, Goal $goal)  // Use the generic Request class
     {
-        // Logic to update an existing goal
+        // Validate the request data
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'target_amount' => 'required|numeric|min:0',
+            'current_amount' => 'nullable|numeric|min:0',
+            'target_date' => 'required|date',
+        ]);
+
+        // Update the goal with the validated data
+        $goal->name = $validatedData['name'];
+        $goal->target_amount = $validatedData['target_amount'];
+        $goal->current_amount = $validatedData['current_amount'] ?? 0;
+        $goal->target_date = $validatedData['target_date'];
+        $goal->save();
+
+        // Redirect to the index page with a success message
+        return redirect()->route('goals.index')->with('success', 'Goal updated successfully!');
     }
 
     /**
@@ -61,6 +98,9 @@ class GoalController extends Controller
      */
     public function destroy(Goal $goal)
     {
-        // Logic to delete a goal
+        $goal->delete();
+
+        // Redirect to the index page with a success message
+        return redirect()->route('goals.index')->with('success', 'Goal deleted successfully!');
     }
 }

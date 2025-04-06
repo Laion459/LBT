@@ -20,10 +20,19 @@ class Financing extends Model
         'paid',
         'owed',
         'total',
+        'star_date',
+        'end_date',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($asset) {
+            $asset->user_id = auth()->id();
+        });
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Filament\Pages\Dashboard;
+use App\Filament\Pages\Finance\ConsolidatedPanel;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\CategoryController;
@@ -54,3 +56,11 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// Rotas do Filament (fora do middleware auth)
+Route::get('/admin', function () {
+    return redirect('/admin/dashboard');
+});
+
+Route::get('/admin/dashboard', [Dashboard::class, '__invoke'])->name('filament.admin.pages.dashboard');
+Route::get('/admin/finance/consolidated-panel', [ConsolidatedPanel::class, '__invoke'])->name('filament.admin.pages.finance.consolidated-panel');

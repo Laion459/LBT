@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('item')->nullable();
             $table->string('installments')->nullable();
             $table->decimal('value', 10, 2)->nullable();
+            $table->date('start_date')->nullable();
             $table->timestamps();
         });
     }

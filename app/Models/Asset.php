@@ -13,10 +13,18 @@ class Asset extends Model
         'user_id',
         'actions',
         'fixed_income',
+        'date',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($asset) {
+            $asset->user_id = auth()->id();
+        });
     }
 }

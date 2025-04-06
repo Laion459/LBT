@@ -23,6 +23,8 @@ return new class extends Migration
             $table->integer('paid')->nullable();
             $table->decimal('owed', 10, 2)->nullable();
             $table->decimal('total', 10, 2)->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->timestamps();
         });
     }

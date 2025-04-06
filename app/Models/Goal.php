@@ -16,6 +16,7 @@ class Goal extends Model
         'description',
         'target_amount',
         'current_amount',
+        'star_date',
         'target_date',
     ];
 

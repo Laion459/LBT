@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('actions', 10, 2)->nullable();
             $table->decimal('fixed_income', 10, 2)->nullable();
+            $table->date('date')->nullable();
             $table->timestamps();
         });
     }

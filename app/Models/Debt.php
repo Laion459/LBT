@@ -14,10 +14,18 @@ class Debt extends Model
         'item',
         'installments',
         'value',
+        'date',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($asset) {
+            $asset->user_id = auth()->id();
+        });
     }
 }

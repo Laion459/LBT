@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('target_amount', 10, 2);
             $table->decimal('current_amount', 10, 2)->default(0);
+            $table->date('start_date')->nullable();
             $table->date('target_date');
             $table->timestamps();
         });
